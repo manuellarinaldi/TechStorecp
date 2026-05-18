@@ -1,73 +1,138 @@
-# React + TypeScript + Vite
+[# 🛒 TechStore — Catálogo de Produtos Tecnológicos
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação web que simula um catálogo de produtos tecnológicos, desenvolvida como projeto do Checkpoint 3 da disciplina de Front-End Design Engineering da FIAP.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 👥 Integrantes
 
-## React Compiler
+| Nome | RM | Responsabilidade |
+|---|---|---|
+| Manuella Rinaldi | 567915 | Desenvolvimento completo da aplicação (estrutura, componentes, páginas, API, deploy) |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🚀 Tecnologias Utilizadas
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- [Vite](https://vitejs.dev/)
+- [React](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [React Router DOM](https://reactrouter.com/)
+- Fetch API
+- [Git](https://git-scm.com/) e [GitHub](https://github.com/)
+- [Vercel](https://vercel.com/) (deploy)
+- [My JSON Server](https://my-json-server.typicode.com/) (API)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 📄 Páginas da Aplicação
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Página | Rota |
+|---|---|
+| Página inicial | `/` |
+| Catálogo de produtos | `/produtos` |
+| Detalhes do produto | `/produtos/:id` |
+| Categorias | `/categorias` |
+| Produtos por categoria | `/categorias/:categoria` |
+| Sobre | `/sobre` |
+| Página de erro | `*` |
+
+---
+
+## 🗂️ Estrutura do Projeto
+
+```
+src/
+├── components/
+│   ├── Button.tsx
+│   ├── CategoryCard.tsx
+│   ├── ErrorMessage.tsx
+│   ├── Footer.tsx
+│   ├── Header.tsx
+│   ├── Loading.tsx
+│   ├── NavMenu.tsx
+│   └── ProductCard.tsx
+├── pages/
+│   ├── About.tsx
+│   ├── Categorias.tsx
+│   ├── CategoryProducts.tsx
+│   ├── Detalhes.tsx
+│   ├── Erro.tsx
+│   ├── Home.tsx
+│   ├── NotFound.tsx
+│   ├── Produtos.tsx
+│   └── Sobre.tsx
+├── routes/
+│   └── AppRoutes.tsx
+├── services/
+│   └── api.ts
+├── types/
+│   └── Produto.ts
+└── styles/
+    └── global.css
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🔌 API Utilizada
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+A aplicação consome dados de uma API REST criada com **My JSON Server**, hospedada no GitHub.
+
+- **Repositório da API:** [techstore-api](https://github.com/manuellarinaldi/techstore-api)
+- **URL base:** `https://my-json-server.typicode.com/manuellarinaldi/techstore-api`
+- **Endpoint de produtos:** `/produtos`
+- **Endpoint por ID:** `/produtos/:id`
+
+### Estrutura do produto
+
+```json
+{
+  "id": 1,
+  "nome": "Notebook Pro X15",
+  "categoria": "Notebooks",
+  "preco": 6499.90,
+  "imagem": "https://...",
+  "descricaoCurta": "Notebook robusto para produtividade.",
+  "descricaoDetalhada": "Descrição completa do produto..."
+}
 ```
+
+---
+
+## ⚙️ Como Instalar e Executar Localmente
+
+### Pré-requisitos
+
+- Node.js 18+
+- npm
+
+### Passo a passo
+
+```bash
+# Clone o repositório
+git clone https://github.com/manuellarinaldi/TechStorecp.git
+
+# Entre na pasta do projeto
+cd TechStorecp
+
+# Instale as dependências
+npm install
+
+# Crie o arquivo de variáveis de ambiente
+echo "VITE_API_URL=https://my-json-server.typicode.com/manuellarinaldi/techstore-api" > .env
+
+# Inicie o servidor de desenvolvimento
+npm run dev
+```
+
+Acesse em: `http://localhost:5173`
+
+---
+
+## 🔗 Links
+
+- 📁 **Repositório GitHub:** [github.com/manuellarinaldi/TechStorecp](https://github.com/manuellarinaldi/TechStorecp)
+- 🌐 **Deploy na Vercel:** [tech-storecp-7kyj.vercel.app](https://tech-storecp-7kyj.vercel.app)
+
+---
+
