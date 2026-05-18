@@ -1,33 +1,35 @@
-import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import type { Produto } from '../types/Produto'
-import './Detalhes.css'
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import type { Produto } from '../types/Produto';
+import { getProdutoPorId } from '../services/api';
+import { Loading } from '../components/Loading';
+import { ErrorMessage } from '../components/ErrorMessage';
+import './Detalhes.css';
 
 export const Detalhes = () => {
-  const { id } = useParams()
-  const navigate = useNavigate()
-  const [produto, setProduto] = useState<Produto | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [erro, setErro] = useState<string | null>(null)
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [produto, setProduto] = useState<Produto | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [erro, setErro] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProduto = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/produtos/${id}`)
-        if (!response.ok) throw new Error('Produto não encontrado')
-        const data: Produto = await response.json()
-        setProduto(data)
-      } catch (err: any) {
-        setErro(err.message)
+        const data = await getProdutoPorId(Number(id));
+        if (!data) throw new Error('Produto não encontrado');
+        setProduto(data);
+      } catch (err) {
+        setErro(err instanceof Error ? err.message : 'Erro desconhecido');
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
-    fetchProduto()
-  }, [id])
+    };
+    fetchProduto();
+  }, [id]);
 
-  if (loading) return <p>Carregando detalhes...</p>
-  if (erro) return <p>Erro: {erro}</p>
+  if (loading) return <Loading mensagem="Carregando produto..." />;
+  if (erro) return <ErrorMessage mensagem={erro} />;
 
   return (
     <div className="detalhes-page">
@@ -42,5 +44,5 @@ export const Detalhes = () => {
         </>
       )}
     </div>
-  )
-}
+  );
+};
