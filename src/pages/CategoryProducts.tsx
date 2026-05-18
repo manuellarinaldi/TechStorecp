@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Loading } from '../components/Loading';
 import { ErrorMessage } from '../components/ErrorMessage';
@@ -20,10 +20,8 @@ export function CategoryProducts() {
     ? decodeURIComponent(categoria)
     : '';
 
-  async function carregar(): Promise<void> {
+  const carregar = useCallback(async (): Promise<void> => {
     try {
-      setCarregando(true);
-      setErro(null);
       const lista = await getProdutosPorCategoria(nomeCategoria);
       setProdutos(lista);
     } catch (e) {
@@ -31,11 +29,11 @@ export function CategoryProducts() {
     } finally {
       setCarregando(false);
     }
-  }
+  }, [nomeCategoria]);
 
   useEffect(() => {
     carregar();
-  }, [nomeCategoria]);
+  }, [carregar]);
 
   return (
     <div className="category-products-page">
