@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { Produto } from '../types/Produto'
+import type { Produto } from '../types/Produto'
 import './Detalhes.css'
 
 export const Detalhes = () => {
@@ -13,12 +13,10 @@ export const Detalhes = () => {
   useEffect(() => {
     const fetchProduto = async () => {
       try {
-        const response = await fetch('/produtos.json')
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/produtos/${id}`)
         if (!response.ok) throw new Error('Produto não encontrado')
-        const json = await response.json()
-        const data: Produto[] = json.produtos
-        const produtoEncontrado = data.find(p => p.id === parseInt(id || '0'))
-        setProduto(produtoEncontrado || null)
+        const data: Produto = await response.json()
+        setProduto(data)
       } catch (err: any) {
         setErro(err.message)
       } finally {

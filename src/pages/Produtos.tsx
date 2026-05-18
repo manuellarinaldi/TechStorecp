@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Produto } from '../types/Produto'
+import type { Produto } from '../types/Produto'
 import { ProductCard } from '../components/ProductCard'
 import './Produtos.css'
 
@@ -11,10 +11,10 @@ export const Produtos = () => {
   useEffect(() => {
     const fetchProdutos = async () => {
       try {
-        const response = await fetch('/produtos.json')
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/produtos`)
         if (!response.ok) throw new Error('Erro ao buscar dados')
         const json = await response.json()
-        const data: Produto[] = json.produtos
+        const data: Produto[] = json
         setProdutos(data)
       } catch (err: any) {
         setErro(err.message)
