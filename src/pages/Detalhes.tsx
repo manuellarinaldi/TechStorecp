@@ -21,15 +21,18 @@ export const Detalhes = () => {
         const data: Produto[] = json.produtos
         const produtoEncontrado = data.find(p => p.id === parseInt(id || '0'))
         setProduto(produtoEncontrado || null)
-      } catch (err: any) {
-        setErro(err.message)
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setErro(err.message)
+        } else {
+          setErro('Erro desconhecido')
+        }
       } finally {
         setLoading(false)
       }
     }
     fetchProduto()
   }, [id])
-
 
   if (loading) return <Loading mensagem="Carregando produto..." />;
   if (erro) return <ErrorMessage mensagem={erro} />;

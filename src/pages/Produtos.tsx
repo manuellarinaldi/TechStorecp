@@ -8,7 +8,7 @@ export const Produtos = () => {
   const [loading, setLoading] = useState(true)
   const [erro, setErro] = useState<string | null>(null)
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchProdutos = async () => {
       try {
         const response = await fetch('/produtos.json')
@@ -16,8 +16,12 @@ export const Produtos = () => {
         const json = await response.json()
         const data: Produto[] = json.produtos
         setProdutos(data)
-      } catch (err: any) {
-        setErro(err.message)
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setErro(err.message)
+        } else {
+          setErro('Erro desconhecido')
+        }
       } finally {
         setLoading(false)
       }
