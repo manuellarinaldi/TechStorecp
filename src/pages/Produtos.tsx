@@ -8,13 +8,13 @@ export const Produtos = () => {
   const [loading, setLoading] = useState(true)
   const [erro, setErro] = useState<string | null>(null)
 
-  useEffect(() => {
+    useEffect(() => {
     const fetchProdutos = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/produtos`)
+        const response = await fetch('/produtos.json')
         if (!response.ok) throw new Error('Erro ao buscar dados')
         const json = await response.json()
-        const data: Produto[] = json
+        const data: Produto[] = json.produtos
         setProdutos(data)
       } catch (err: any) {
         setErro(err.message)

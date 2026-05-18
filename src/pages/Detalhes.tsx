@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import type { Produto } from '../types/Produto';
-import { getProdutoPorId } from '../services/api';
 import { Loading } from '../components/Loading';
 import { ErrorMessage } from '../components/ErrorMessage';
 import './Detalhes.css';
@@ -16,17 +15,21 @@ export const Detalhes = () => {
   useEffect(() => {
     const fetchProduto = async () => {
       try {
-        const data = await getProdutoPorId(Number(id));
-        if (!data) throw new Error('Produto não encontrado');
-        setProduto(data);
-      } catch (err) {
-        setErro(err instanceof Error ? err.message : 'Erro desconhecido');
+        const response = await fetch('/produtos.json')
+        if (!response.ok) throw new Error('Produto não encontrado')
+        const json = await response.json()
+        const data: Produto[] = json.produtos
+        const produtoEncontrado = data.find(p => p.id === parseInt(id || '0'))
+        setProduto(produtoEncontrado || null)
+      } catch (err: any) {
+        setErro(err.message)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    fetchProduto();
-  }, [id]);
+    }
+    fetchProduto()
+  }, [id])
+
 
   if (loading) return <Loading mensagem="Carregando produto..." />;
   if (erro) return <ErrorMessage mensagem={erro} />;
