@@ -1,4 +1,4 @@
-import type { Produto} from '../types/Produto';
+import type { Produto, RespostaProdutos } from '../types/Produto';
 
 
 const API_URL: string = import.meta.env.VITE_API_URL ?? '';
@@ -18,7 +18,7 @@ export async function getProdutos(): Promise<Produto[]> {
       throw new Error(`Erro ao buscar produtos: ${response.status}`);
     }
 
-    const data = (await response.json()) as Produto[] | { produtos: Produto[] };
+    const data = (await response.json()) as Produto[] | RespostaProdutos;
 
 
     if (Array.isArray(data)) {
